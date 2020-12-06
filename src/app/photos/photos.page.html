@@ -1,0 +1,35 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Photos Gallery</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+	<ion-searchbar
+		placeholder="Rechercher par auteur"
+		debounce="500"
+		animated
+		(ionInput)="filterList($event)"
+	></ion-searchbar>
+	<ion-grid>
+		<ion-row>
+			<ion-col *ngFor="let photo of photos" (click)="navigateToPhotoDetail(photo.id)">
+				<ion-card>
+					<ion-img [src]="photo.download_url" [alt]="photo.author"></ion-img>
+					<ion-card-header>
+						<ion-card-subtitle>{{photo.author}}</ion-card-subtitle>
+					</ion-card-header>
+					<ion-card-content> </ion-card-content>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+		<ion-infinite-scroll-content
+			loadingSpinner="bubbles"
+			loadingText="Charger plus de photos..."
+			disabled="searchText"
+		>
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>
